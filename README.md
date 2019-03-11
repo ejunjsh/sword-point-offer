@@ -291,3 +291,55 @@ private:
     stack<int> stack2;
 };
 ````
+
+## 06 [旋转数组的最小数字](https://www.nowcoder.com/practice/9f3231a991af4f55b95579b44b7a01ba)
+
+### 题目：
+
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+
+输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。
+
+例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
+
+### 思路：
+
+1. 遍历数组，找到数组的最小值，时间复杂度O(n)；
+2. 二分查找，时间复杂度O(logn)
+
+    查找过程：
+
+    旋转数组可以看成两个递增（非减）数组，通过前后两个指针left，right分别指向数组的首尾，
+
+    当满足循环不变量时A[left]>=A[right]，mid=(left+right)/2，否则返回A[left]即可;
+
+    如果A[mid]>=A[left]，说明最小值存在mid后面部分，left=mid；
+
+    如果A[mid]<=A[left]，说明最小值存在mid前面部分，right=mid；
+
+    经过循环之后，最终left会指向最小值，返回A[left]即可。
+
+### 代码
+
+````c++
+class Solution {
+public:
+    int minNumberInRotateArray(vector<int> rotateArray) {
+        int start=0,end=rotateArray.size()-1;
+        while (start<end) {
+            if (rotateArray[start]<rotateArray[end])
+                return rotateArray[start];
+            
+            int mid = (start+end)/2;
+            
+            if (rotateArray[mid]>=rotateArray[start]) {
+                start = mid+1;
+            } else {
+                end = mid;
+            }
+        }
+        
+        return rotateArray[start];
+    }
+};
+````
