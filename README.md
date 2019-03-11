@@ -343,3 +343,53 @@ public:
     }
 };
 ````
+
+## 07 [斐波那契数列](https://www.nowcoder.com/practice/c6c7742f5ba7442aada113136ddea0c3)
+
+### 题目：
+
+现在要求输入一个整数n，请你输出斐波那契数列的第n项。
+
+斐波那契数列的定义：
+
+f(0)=0;f(1)=1;
+
+f(n)=f(n-1)+f(n-2)
+
+### 思路：
+1. 递归：
+
+    根据递推公式来实现
+
+    优点：代码简单，易懂
+
+    缺点：
+
+    效率低：函数递归调用过程中需要不断分配栈空间，且不断地入栈出栈，代码执行效率低；
+    栈溢出：当递归层级太多时，会超出栈容量，导致栈溢出；
+    复杂度高：递归调用存在大量的重复计算，时间复杂度以n的指数递增。
+2. 循环：
+
+    从下往上计算（动态规划），克服递归出现的缺陷
+
+### 代码
+
+````c++
+class Solution {
+public:
+    int Fibonacci(int n) {
+        if(n<2)
+            return n;
+        int fone=0;
+        int ftwo=1;
+        int fsum;
+        for(int i=2;i<=n;i++){
+            fsum=fone+ftwo;
+            fone=ftwo;
+            ftwo=fsum;
+        }
+        return fsum;
+    }
+};
+````
+
