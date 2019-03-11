@@ -107,7 +107,7 @@ public:
 };
 ````
 
-## 3 [从尾到头打印链表](https://www.nowcoder.com/practice/d0267f7f55b3412ba93bd35cfa8e8035)
+## 03 [从尾到头打印链表](https://www.nowcoder.com/practice/d0267f7f55b3412ba93bd35cfa8e8035)
 
 ### 题目：
 
@@ -182,7 +182,7 @@ public:
 };
 ````
 
-## 4 [重建二叉树](https://www.nowcoder.com/practice/8a19cbe657394eeaac2f6ea9b0f6fcf6)
+## 04 [重建二叉树](https://www.nowcoder.com/practice/8a19cbe657394eeaac2f6ea9b0f6fcf6)
 
 ### 题目：
 
@@ -240,5 +240,54 @@ public:
         root -> right = helper(preorder,i + 1 + dis,j,inorder,ii + dis + 1,jj);
         return root;
     }
+};
+````
+
+## 05 [用两个栈实现队列](https://www.nowcoder.com/practice/54275ddae22f475981afa2244dd448c6)
+
+### 题目
+
+用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。
+
+### 思路
+
+根据栈的“先进后出”特点，如果将数据导入一个栈，再导入另一个栈，这样数据的出入顺序就变成了“先进先出”，即队列的特点。
+
+假设有两个栈，stack1,stack2.
+
+插入结点：直接压入stack1
+
+删除结点：如果stack2为空，则将stack1中的结点导入stack2,；如果不为空，则从stack2弹出结点。
+
+
+### 代码
+
+````c++
+class Solution
+{
+public:
+    void push(int node) {
+        stack1.push(node);
+    }
+ 
+    int pop() {
+        if(stack2.size()<=0){
+            int data;
+            while(stack1.size()>0){
+                data=stack1.top();
+                stack1.pop();
+                stack2.push(data);
+            }
+        }
+        if(stack2.size()<=0)
+            return -1;
+        int del=stack2.top();
+        stack2.pop();
+        return del;
+    }
+ 
+private:
+    stack<int> stack1;
+    stack<int> stack2;
 };
 ````
