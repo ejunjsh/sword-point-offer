@@ -115,9 +115,8 @@ public:
 
 ### 思路：
 
-1. 改变链表结构的话，先反转链表，然后从头到尾打印每个结点的值。
-2. 无需改变链表结构，使用栈，遍历整个链表，将结点依次入栈，然后再依次出栈，实现“后进先出”。
-3. 无需改变链表结构，递归实现,如果链表结点数过多的话，可能会导致栈溢出。
+1. 使用栈，遍历整个链表，将结点依次入栈，然后再依次出栈，实现“后进先出”。
+2. 递归实现,如果链表结点数过多的话，可能会导致栈溢出。
 
 ### 代码：
 
@@ -179,6 +178,67 @@ public:
             res.push_back(tmp);
         }
         return res;
+    }
+};
+````
+
+## 4 [重建二叉树](https://www.nowcoder.com/practice/8a19cbe657394eeaac2f6ea9b0f6fcf6)
+
+### 题目：
+
+输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。
+
+假设输入的前序遍历和中序遍历结果中都不含重复的数字。
+
+例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并输出它的后序遍历序列。
+
+### 思路：
+
+在二叉树的先序遍历序列中，第一个数总是数的根结点的值，后面依次是是左子树结点的值、右子树结点的值；
+
+在二叉树的中序遍历序列中，根节点位于序列中间，根节点左边为左子树，右边为右子树。
+
+根据上述信息，我们可以：
+
+先通过先序遍历序列找到根节点，
+
+然后在中序遍历序列中找到根节点，这样就可以确定左子树和右子树。
+
+接着再回到先序遍历序列中找到左子树和右子树，重复上述步骤（递归）。
+
+### 代码：
+
+````c++
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* reConstructBinaryTree(vector<int> pre,vector<int> vin) {
+        return helper(pre,0,pre.size(),vin,0,vin.size());
+    }
+    
+    TreeNode* helper(vector<int>& preorder,int i,int j,vector<int>& inorder,int ii,int jj)
+    {
+
+        if(i >= j || ii >= jj)
+            return NULL;
+
+        int mid = preorder[i];
+        auto f = find(inorder.begin() + ii,inorder.begin() + jj,mid);
+
+        int dis = f - inorder.begin() - ii;
+
+        TreeNode* root = new TreeNode(mid);
+        root -> left = helper(preorder,i + 1,i + 1 + dis,inorder,ii,ii + dis);
+        root -> right = helper(preorder,i + 1 + dis,j,inorder,ii + dis + 1,jj);
+        return root;
     }
 };
 ````
