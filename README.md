@@ -370,7 +370,7 @@ f(n)=f(n-1)+f(n-2)
     复杂度高：递归调用存在大量的重复计算，时间复杂度以n的指数递增。
 2. 循环：
 
-    从下往上计算（动态规划），克服递归出现的缺陷
+    从前往后计算（动态规划），克服递归出现的缺陷
 
 ### 代码
 
@@ -393,3 +393,39 @@ public:
 };
 ````
 
+## 08 [跳台阶](https://www.nowcoder.com/practice/8c82a5b80378478f9484d87d1c5f12a4)
+
+### 题目
+
+一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）.
+
+### 思路
+
+这个其实就是斐波那契数列,对于一个n级的台阶，它是由它的前一级或者前二级跳上来了，所以就有如下等式：
+
+f(n)=f(n-1)+f(n-2)
+
+至于边界条件的话：
+
+f(1)=1;f(2)=2
+
+
+### 代码
+
+````c++
+class Solution {
+public:
+    int jumpFloor(int number) {
+        if (number <= 2)
+            return number;
+        int pre2 = 1, pre1 = 2;
+        int result = 1;
+        for (int i = 2; i < number; i++) {
+            result = pre2 + pre1;
+            pre2 = pre1;
+            pre1 = result;
+        }
+        return result;
+    }
+};
+````
