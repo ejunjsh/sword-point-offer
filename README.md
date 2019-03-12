@@ -606,3 +606,46 @@ public:
 ### 调试
 
 [二进制中1的个数](https://www.nowcoder.com/practice/8ee967e43c2c4ec193b040ea7fbb10b8)
+
+
+## 数值的整数次方
+
+### 题目
+
+给定一个 double 类型的浮点数 base 和 int 类型的整数 exponent，求 base 的 exponent 次方。
+
+### 思路
+
+下面的公式中 x 代表 base，n 代表 exponent。
+
+    x^n=n%2?x*(x*x)^(n/2):(x*x)^(n/2)
+
+因为 (x*x)^(n/2) 可以通过递归求解，并且每次递归 n 都减小一半，因此整个算法的时间复杂度为 O(logN)。
+
+
+### 代码
+
+````c++
+class Solution {
+public:
+    double Power(double base, int exponent) {
+        if (exponent == 0)
+            return 1;
+        if (exponent == 1)
+            return base;
+        bool isNegative = false;
+        if (exponent < 0) {
+            exponent = -exponent;
+            isNegative = true;
+        }
+        double pow = Power(base * base, exponent / 2);
+        if (exponent % 2 != 0)
+            pow = pow * base;
+        return isNegative ? 1 / pow : pow;
+    }
+};
+````
+
+### 调试
+
+[数值的整数次方](https://www.nowcoder.com/practice/1a834e5e3e1a4b7ba251417554e07c00)
