@@ -740,3 +740,49 @@ public:
 ### 调试
 
 [链表中倒数第k个结点](https://www.nowcoder.com/practice/529d3ae5a407492994ad2a246518148a)
+
+## 15 反转链表
+
+### 题目
+
+定义一个函数，输入一个链表的头结点，反转该链表并输出反转后链表的头结点。
+
+### 思路
+
+反转链表，需要调整结点的next指针，例如a->b->c，需要调整为a<-b<-c，只要将当前结点的next指针指向前一结点即可，如b->next=a，需要一个变量来保存前一结点;
+
+但调整当前结点的next指针之后，就无法获取原链表的下一结点了，因此需要一个临时变量来保存当前结点的下一结点。
+
+依次遍历整个链表，调整每个结点的next指针，最后返回原链表的最后一个结点指针即可。
+
+### 代码
+
+````c++
+/*
+struct ListNode {
+	int val;
+	struct ListNode *next;
+	ListNode(int x) :
+			val(x), next(NULL) {
+	}
+};*/
+class Solution {
+public:
+    ListNode* ReverseList(ListNode* pHead) {
+        ListNode* tmp;
+        ListNode* pCur=pHead;
+        ListNode* pPrev=NULL;
+        while(pCur){
+            tmp=pCur->next;
+            pCur->next=pPrev;
+            pPrev=pCur;
+            pCur=tmp;
+        }
+        return pPrev;
+    }
+};
+````
+
+### 调试
+
+[反转链表](https://www.nowcoder.com/practice/75e878df47f24fdc9dc3e400ec6058ca)
