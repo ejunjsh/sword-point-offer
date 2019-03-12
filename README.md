@@ -608,7 +608,7 @@ public:
 [二进制中1的个数](https://www.nowcoder.com/practice/8ee967e43c2c4ec193b040ea7fbb10b8)
 
 
-## 数值的整数次方
+## 12 数值的整数次方
 
 ### 题目
 
@@ -650,7 +650,7 @@ public:
 
 [数值的整数次方](https://www.nowcoder.com/practice/1a834e5e3e1a4b7ba251417554e07c00)
 
-## 调整数组顺序使奇数位于偶数前面
+## 13 调整数组顺序使奇数位于偶数前面
 
 ### 题目
 
@@ -686,3 +686,57 @@ public:
 ### 调试
 
 [调整数组顺序使奇数位于偶数前面](https://www.nowcoder.com/practice/beb5aa231adc45b2a5dcc5b62c93f593)
+
+
+## 14 链表中倒数第k个结点
+
+
+### 题目
+
+输入一个链表，输出该链表中倒数第k个结点。
+
+例如：链表中有6个结点，从头到尾依次为1,2,3,4,5,6，则该链表的倒数第3个结点为4.
+
+
+### 思路
+
+1. 遍历整个链表，计算结点的个数n，再遍历链表，找到第n-k+1个结点；
+2. 通过两个指针，第一个指针先走k-1步，到达第k个结点，第二个指针指向头结点，然后两个指针同时走，每次走一步，当第一个指针走到链尾时，第二个指针恰好走到倒数第k个结点。注意细节：链表为空，k大于链表长度或者小于1等情况。
+
+
+### 代码
+
+````c++
+/*
+struct ListNode {
+	int val;
+	struct ListNode *next;
+	ListNode(int x) :
+			val(x), next(NULL) {
+	}
+};*/
+class Solution {
+public:
+    ListNode* FindKthToTail(ListNode* pListHead, unsigned int k) {
+        if(pListHead==NULL || k<=0)
+            return NULL;
+        ListNode* pAhead=pListHead;
+        for(int i=1;i<k;i++){
+            if(pAhead->next!=NULL)
+                pAhead=pAhead->next;
+            else
+                return NULL;
+        }
+        ListNode *pBehind=pListHead;
+        while(pAhead->next!=NULL){
+            pAhead=pAhead->next;
+            pBehind=pBehind->next;
+        }
+        return pBehind;
+    }
+};
+````
+
+### 调试
+
+[链表中倒数第k个结点](https://www.nowcoder.com/practice/529d3ae5a407492994ad2a246518148a)
