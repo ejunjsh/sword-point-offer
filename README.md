@@ -649,3 +649,40 @@ public:
 ### 调试
 
 [数值的整数次方](https://www.nowcoder.com/practice/1a834e5e3e1a4b7ba251417554e07c00)
+
+## 调整数组顺序使奇数位于偶数前面
+
+### 题目
+
+输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+
+### 思路
+
+先遍历原数组，累加奇数的个数之后，从原数组里面拷贝一个新数组，然后遍历这个新数组，如果元素是偶数，由于已经算出来奇数的个数了，所以就可以知道偶数要放在原数组的哪个位置了，如果是奇数，就放在原数组开头，然后就是分别累加位置的索引，直到循环结束
+
+
+### 代码
+
+````c++
+class Solution {
+public:
+    void reOrderArray(vector<int> &array) {
+         int oddCnt = 0;
+        for (int val : array)
+            if (val % 2 == 1)
+                oddCnt++;
+        vector<int> copy = array;
+        int i = 0, j = oddCnt;
+        for (int num : copy) {
+            if (num % 2 == 1)
+                array[i++] = num;
+            else
+                array[j++] = num;
+        }
+    }
+};
+````
+
+### 调试
+
+[调整数组顺序使奇数位于偶数前面](https://www.nowcoder.com/practice/beb5aa231adc45b2a5dcc5b62c93f593)
