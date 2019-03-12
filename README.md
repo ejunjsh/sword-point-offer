@@ -786,3 +786,100 @@ public:
 ### 调试
 
 [反转链表](https://www.nowcoder.com/practice/75e878df47f24fdc9dc3e400ec6058ca)
+
+## 16 合并两个排序的链表
+
+
+### 题目
+
+输入两个递增排序的链表，合并这两个链表并使新链表中的结点仍然时按照递增排序的。
+
+### 思路
+
+合并两个递增排序的链表，思想类似于归并排序的merge过程。
+
+1. 当两个链表均不为空，
+
+    如果链表1头结点的值小于链表2头结点的值，那么链表1的头结点作为新链表的头结点，否则链表2的头结点作为新链表的头结点，链表指针往前走一步；
+
+    对两个链表中剩余结点的操作同步骤1一样；（这是一个递归的过程）
+
+2. 当两个链表至少有一个为空，
+
+    新链表指针指向非空的那一个；
+
+### 代码
+
+#### 递归
+
+````c++
+/*
+struct ListNode {
+	int val;
+	struct ListNode *next;
+	ListNode(int x) :
+			val(x), next(NULL) {
+	}
+};*/
+class Solution {
+public:
+    ListNode* Merge(ListNode* pHead1, ListNode* pHead2)
+    {
+        if(pHead1==NULL)
+            return pHead2;
+        if(pHead2==NULL)
+            return pHead1;
+        if(pHead1->val<pHead2->val){
+            pHead1->next=Merge(pHead1->next,pHead2);
+            return pHead1;
+        }
+        else{
+            pHead2->next=Merge(pHead1,pHead2->next);
+            return pHead2;
+        }
+    }
+};
+````
+
+#### 迭代
+
+````c++
+/*
+struct ListNode {
+	int val;
+	struct ListNode *next;
+	ListNode(int x) :
+			val(x), next(NULL) {
+	}
+};*/
+class Solution {
+public:
+    ListNode* Merge(ListNode* pHead1, ListNode* pHead2)
+    {
+        ListNode *p=new ListNode(0);
+        ListNode *MergeHead=p;
+        while(pHead1!=NULL && pHead2!=NULL){
+            if(pHead1->val<pHead2->val){
+                MergeHead->next=pHead1;
+                pHead1=pHead1->next;
+            }
+            else{
+                MergeHead->next=pHead2;
+                pHead2=pHead2->next;
+            }
+            MergeHead=MergeHead->next;
+        }
+ 
+        if(pHead1==NULL)
+            MergeHead->next=pHead2;
+        if(pHead2==NULL)
+            MergeHead->next=pHead1;
+ 
+        return p->next;
+    }
+};
+````
+
+### 调试
+
+[合并两个排序的链表](https://www.nowcoder.com/practice/d8b6b4358f774294a89de2a6ac4d9337)
