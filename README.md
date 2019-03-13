@@ -946,3 +946,66 @@ public:
 ### 调试
 
 [树的子结构](https://www.nowcoder.com/practice/6e196c44c7004d15b1610b9afca8bd88)
+
+
+## 18 二叉树的镜像
+
+### 题目
+
+操作给定的二叉树，将其变换为源二叉树的镜像。
+
+````
+    	    8
+    	   /  \
+    	  6   10
+    	 / \  / \
+    	5  7 9 11
+    	镜像二叉树
+    	    8
+    	   /  \
+    	  10   6
+    	 / \  / \
+    	11 9 7  5
+````
+
+### 思路
+
+观察上面两个二叉树，很容易就可以得出下面求一棵树镜像的过程：
+
+先序遍历这棵树的每个结点，如果遍历到的结点有子结点，则交换它的两个子结点。当交换完所有非叶子结点的左右子结点之后，就得到了树的镜像。
+
+
+### 代码
+
+````c++
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    void Mirror(TreeNode *pRoot){
+        if(pRoot==NULL)
+            return;
+        if(pRoot->left==NULL && pRoot->right==NULL)
+            return;
+        TreeNode* tmp=pRoot->left;
+        pRoot->left=pRoot->right;
+        pRoot->right=tmp;
+         
+        if(pRoot->left)
+            Mirror(pRoot->left);
+        if(pRoot->right)
+            Mirror(pRoot->right);
+    }
+};
+````
+
+### 调试
+
+[二叉树的镜像](https://www.nowcoder.com/practice/564f4c26aa584921bc75623e48ca3011)
