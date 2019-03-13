@@ -883,3 +883,66 @@ public:
 ### 调试
 
 [合并两个排序的链表](https://www.nowcoder.com/practice/d8b6b4358f774294a89de2a6ac4d9337)
+
+
+## 17 树的子结构
+
+### 题目
+
+输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
+
+### 思路
+
+判断二叉树B是否为二叉树A的子树：
+
+首先判断二叉树A的根节点值是否等于二叉树B的根节点值；
+
+如果是，则继续往下遍历，判断二叉树A的左子节点和二叉树B的左子结点以及二叉树A的右子节点和二叉树B的右子节点是否都相等，直到叶子节点；（递归）
+
+    return IsSubtree(pRoot1->left,pRoot2->left) && IsSubtree(pRoot1->right,pRoot2->right);
+
+如果不是，则判断二叉树B是否为二叉树A左子树的子树或者二叉树B是否为二叉树A右子树的子树；（递归）
+
+    return HasSubtree(pRoot1->left,pRoot2)|| HasSubtree(pRoot1->right,pRoot2);
+
+### 代码
+
+````c++
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    bool IsSubtree(TreeNode* pRoot1,TreeNode* pRoot2){
+        if(pRoot2==NULL)
+            return true;
+        if(pRoot1==NULL)
+            return false;
+        if(pRoot1->val!=pRoot2->val)
+            return false;
+        return IsSubtree(pRoot1->left,pRoot2->left) && IsSubtree(pRoot1->right,pRoot2->right);
+    }
+ 
+    bool HasSubtree(TreeNode* pRoot1, TreeNode* pRoot2)
+    {
+        bool result=false;
+        if(pRoot1!=NULL && pRoot2!=NULL){
+            if(pRoot1->val==pRoot2->val)
+                result=IsSubtree(pRoot1,pRoot2);
+            if(!result)
+                return HasSubtree(pRoot1->left,pRoot2)|| HasSubtree(pRoot1->right,pRoot2);
+        }
+        return result;
+    }
+};
+````
+
+### 调试
+
+[树的子结构](https://www.nowcoder.com/practice/6e196c44c7004d15b1610b9afca8bd88)
