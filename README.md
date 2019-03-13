@@ -1049,3 +1049,43 @@ public:
 ### 调试
 
 [顺时针打印矩阵](https://www.nowcoder.com/practice/9b4c81a02cd34f76be2659fa0d54342a)
+
+
+## 20 包含min函数的栈
+
+### 题目
+
+定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
+
+### 思路
+
+在内部定义两个栈，第一个栈用来存储进来的值，第二个栈用来存最小值，下面代码就是很好的解释
+
+### 代码
+
+````c++
+class Solution {
+private:
+    stack<int> s1;
+    stack<int> s2;
+public:
+    void push(int value) {
+        s1.push(value);
+	    if (s2.empty() || value <= min())  s2.push(value);
+    }
+    void pop() {
+         if (s1.top() == min())  s2.pop();
+	        s1.pop();
+    }
+    int top() {
+        return s1.top();
+    }
+    int min() {
+        return s2.top();
+    }
+};
+````
+
+### 调试
+
+[包含min函数的栈](https://www.nowcoder.com/practice/4c776177d2c04c2494f2555c9fcc1e49)
