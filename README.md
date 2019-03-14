@@ -125,6 +125,11 @@
     - [思路](#%E6%80%9D%E8%B7%AF-15)
     - [代码](#%E4%BB%A3%E7%A0%81-17)
     - [调试](#%E8%B0%83%E8%AF%95-21)
+  - [23 二叉搜索树的后序遍历序列](#23-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97)
+    - [题目](#%E9%A2%98%E7%9B%AE-16)
+    - [思路](#%E6%80%9D%E8%B7%AF-16)
+    - [代码](#%E4%BB%A3%E7%A0%81-18)
+    - [调试](#%E8%B0%83%E8%AF%95-22)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1282,7 +1287,7 @@ public:
 
 ### 思路
 
-二叉树的层序遍历，标准bfs（广度优先），从根结点开始放入一个队列，一边把子节点放入队，一边出队，直到队列为空。出队的过程就是一个层序遍历。
+二叉树的层序遍历，标准bfs（广度优先搜索），从根结点开始放入一个队列，一边把子节点放入队，一边出队，直到队列为空。出队的过程就是一个层序遍历。
 
 ### 代码
 
@@ -1318,3 +1323,60 @@ public:
 ### 调试
 
 [从上往下打印二叉树](https://www.nowcoder.com/practice/7fe2212963db4790b57431d9ed259701)
+
+
+## 23 二叉搜索树的后序遍历序列
+
+### 题目
+
+输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+
+### 思路
+
+二叉搜索树首先是有序的，其后序遍历是“左右根”的顺序，根节点总是在后面，剩余部分分成两部分，比根小的是左子树，比根大的是右子树。（递归）
+
+举例：
+
+* 判断序列{5,7,6,9,11,10,8}是否是二叉排序树的后序遍历。其中，8是根节点，{5,7,6}比8小是左子树，{9,11,10}比8大是右子树。
+* 判断{5,7,6}是否是二叉排序树，其中6是根节点，5比6小是左子树，7比6大是右子树。
+* 判断{9,11,10}是否是二叉排序树，其中10是根节点，9比10小是左子树，11比10大是右子树。
+
+### 代码
+
+````c++
+class Solution {
+public:
+    bool VerifySquenceOfBST(vector<int> sequence) {
+        return helper(sequence, 0, sequence.size() - 1);
+    }
+
+    bool helper(vector<int> seq, int begin, int end){
+        if(seq.empty() || begin > end)
+            return false;
+ 
+        int i = begin;
+        for(; i < end; ++i)
+            if(seq[i] > seq[end])
+                break;
+ 
+        int j = i;
+        for(; j < end; ++j)
+            if(seq[j] < seq[end])
+                return false;
+ 
+        bool left = true;
+        if(i > begin)
+            left = helper(seq, begin, i - 1);
+ 
+        bool right = true;
+        if(i < end - 1)
+            right = helper(seq, i , end - 1);
+ 
+        return left && right;
+    }
+};
+````
+
+### 调试
+
+[二叉搜索树的后序遍历序列](https://www.nowcoder.com/practice/a861533d45854474ac791d90e447bafd)
