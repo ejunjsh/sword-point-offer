@@ -6,8 +6,6 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
 - [sword-point-offer](#sword-point-offer)
   - [01 二维数组中的查找](#01-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9F%A5%E6%89%BE)
     - [题目：](#%E9%A2%98%E7%9B%AE)
@@ -117,11 +115,16 @@
     - [思路](#%E6%80%9D%E8%B7%AF-13)
     - [代码](#%E4%BB%A3%E7%A0%81-15)
     - [调试](#%E8%B0%83%E8%AF%95-19)
-  - [栈的压入、弹出序列](#%E6%A0%88%E7%9A%84%E5%8E%8B%E5%85%A5%E5%BC%B9%E5%87%BA%E5%BA%8F%E5%88%97)
+  - [21 栈的压入、弹出序列](#21-%E6%A0%88%E7%9A%84%E5%8E%8B%E5%85%A5%E5%BC%B9%E5%87%BA%E5%BA%8F%E5%88%97)
     - [题目](#%E9%A2%98%E7%9B%AE-14)
     - [思路](#%E6%80%9D%E8%B7%AF-14)
     - [代码](#%E4%BB%A3%E7%A0%81-16)
     - [调试](#%E8%B0%83%E8%AF%95-20)
+  - [22 从上往下打印二叉树](#22-%E4%BB%8E%E4%B8%8A%E5%BE%80%E4%B8%8B%E6%89%93%E5%8D%B0%E4%BA%8C%E5%8F%89%E6%A0%91)
+    - [题目](#%E9%A2%98%E7%9B%AE-15)
+    - [思路](#%E6%80%9D%E8%B7%AF-15)
+    - [代码](#%E4%BB%A3%E7%A0%81-17)
+    - [调试](#%E8%B0%83%E8%AF%95-21)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1211,7 +1214,7 @@ public:
 
 [包含min函数的栈](https://www.nowcoder.com/practice/4c776177d2c04c2494f2555c9fcc1e49)
 
-## 栈的压入、弹出序列
+## 21 栈的压入、弹出序列
 
 ### 题目
 
@@ -1270,3 +1273,48 @@ public:
 ### 调试
 
 [栈的压入、弹出序列](https://www.nowcoder.com/practice/d77d11405cc7470d82554cb392585106)
+
+## 22 从上往下打印二叉树
+
+### 题目
+
+从上往下打印出二叉树的每个节点，同层节点从左至右打印
+
+### 思路
+
+二叉树的层序遍历，标准bfs（广度优先），从根结点开始放入一个队列，一边把子节点放入队，一边出队，直到队列为空。出队的过程就是一个层序遍历。
+
+### 代码
+
+````c++
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    vector<int> PrintFromTopToBottom(TreeNode* root) {
+       vector<int> res;
+       queue<TreeNode*> q;
+        if(root==NULL)return res;
+        q.push(root);
+        while(!q.empty()){
+            TreeNode* tmp=q.front();
+            q.pop();
+            if(tmp->left!=NULL) q.push(tmp->left);
+            if(tmp->right!=NULL) q.push(tmp->right);
+            res.push_back(tmp->val);
+        }   
+        return res;
+    }
+};
+````
+
+### 调试
+
+[从上往下打印二叉树](https://www.nowcoder.com/practice/7fe2212963db4790b57431d9ed259701)
