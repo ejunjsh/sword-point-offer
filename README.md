@@ -1380,3 +1380,68 @@ public:
 ### 调试
 
 [二叉搜索树的后序遍历序列](https://www.nowcoder.com/practice/a861533d45854474ac791d90e447bafd)
+
+
+## 24 二叉树中和为某一值的路径
+
+### 题目
+
+输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
+
+### 思路
+
+回溯算法的典型案例，也是深度优先搜素(dfs)的典型案例
+
+如果当前结点不为空，且结点的值小于期望值，则将该结点压入路径vector中，并继续从左右子结点往下遍历；
+
+    if(root->left)   FindPath(root->left,result,path,expectedNumber-root->val);
+    if(root->right)  FindPath(root->right,result,path,expectedNumber-root->val);
+
+递归的结束条件：
+
+当遍历到了叶子节点，且该叶子结点的值等于期望值，那么这是一条满足的路径；
+
+每次检查完一条路径后，要弹出路径的一个节点，选择另外个节点压入，继续递归下去
+
+### 代码
+
+````c++
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    vector<vector<int> > FindPath(TreeNode* root,int expectNumber) {
+        vector<vector<int> > res;
+        if(root==NULL)
+            return res;
+        vector<int> path;
+        FindPath(root,res,path,expectNumber);
+        return res;
+    }
+     
+    void FindPath(TreeNode* root,vector<vector<int> > &result,vector<int> &path,int expectedNumber){
+        if(root->val>expectedNumber)
+            return;
+        path.push_back(root->val);
+        if(root->left==NULL && root->right==NULL && root->val==expectedNumber){
+            result.push_back(path);
+        }
+        if(root->left)
+            FindPath(root->left,result,path,expectedNumber-root->val);
+        if(root->right)
+            FindPath(root->right,result,path,expectedNumber-root->val);
+        path.pop_back();
+    }
+};
+````
+
+### 调试
+
+[二叉树中和为某一值的路径](https://www.nowcoder.com/practice/b736e784e3e34731af99065031301bca)
