@@ -1518,3 +1518,58 @@ public:
 ### 调试
 
 [复杂链表的复制](https://www.nowcoder.com/practice/f836b2c43afc4b35ad6adc41ec941dba)
+
+
+## 二叉搜索树与双向链表
+
+### 描述
+
+输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。
+
+### 思路
+
+要得出一个排序的链表，所以必须要`中序遍历`，并在遍历中处理双向的链接。
+
+首先定义个`head`字段用来记录头节点，一旦找到第一个节点，就赋值给`head`
+然后定义`pre`字段用来记录遍历中之前加入链表的节点，一旦确认一个节点加入到列表，就要用`pre`作为这个节点的左节点`node->left = pre`，把这个节点作为`pre`的右节点`pre->right = node`,之后当前节点赋值给`pre`，继续遍历。
+
+### 代码
+
+````c++
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    TreeNode* Convert(TreeNode* pRootOfTree)
+    {
+        helper(pRootOfTree);
+        return head;
+    }
+private:
+    TreeNode* head=NULL;
+    TreeNode* pre=NULL;
+    void helper(TreeNode* node){
+        if (node == NULL)
+            return;
+        helper(node->left);
+        node->left = pre;
+        if (pre != NULL)
+            pre->right = node;
+        pre = node;
+        if (head == NULL)
+            head = node;
+        helper(node->right);
+    }
+};
+````
+
+### 调试
+
+[二叉搜索树与双向链表](https://www.nowcoder.com/practice/947f6eb80d944a84850b0538bf0ec3a5)
