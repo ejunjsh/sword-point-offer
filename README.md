@@ -1391,7 +1391,7 @@ public:
 [复杂链表的复制](https://www.nowcoder.com/practice/f836b2c43afc4b35ad6adc41ec941dba)
 
 
-## 二叉搜索树与双向链表
+## 26 二叉搜索树与双向链表
 
 ### 描述
 
@@ -1444,3 +1444,43 @@ private:
 ### 调试
 
 [二叉搜索树与双向链表](https://www.nowcoder.com/practice/947f6eb80d944a84850b0538bf0ec3a5)
+
+## 28 数组中出现次数超过一半的数字
+
+### 描述
+
+数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。如果不存在则输出0。
+
+### 思路
+
+多数投票问题，可以利用 Boyer-Moore Majority Vote Algorithm 来解决这个问题，使得时间复杂度为 O(N)。
+
+这个算法也很好理解，就是投票，遍历数组，用`major`, `counts`分别记录大多数的值和它相应的票数。如果遇到反对的（遍历的时候发现跟`major`不同的），就减一，赞同的就加一。如果票数变为零，而且跟`major`不同，`major`就换个数字，直到遍历结束。这时候`major`的值就是一般情况就是答案了，可是这个题是可以存在没有超过一半的数字的情况的，所以，接下来还要验证这个`major`是不是大多数，再来一次遍历，确认`major`是否超过数组一半，如果，没超过那就不存在大多数的数了，所以返回0，如果超过，那`major`就是答案了。
+
+### 代码
+
+````c++
+class Solution {
+public:
+    int MoreThanHalfNum_Solution(vector<int> numbers) {
+        int major, counts = 0, n = numbers.size();
+        for (int i = 0; i < n; i++) {
+            if (!counts) {
+                major = numbers[i];
+                counts = 1;
+            }
+            else counts += (numbers[i] == major) ? 1 : -1;
+        }
+        
+        int cnt = 0;
+        for (auto val : numbers)
+            if (val == major)
+                cnt++;
+        return cnt > numbers.size() / 2 ? major : 0;
+    }
+};
+````
+
+### 调试
+
+[数组中出现次数超过一半的数字](https://www.nowcoder.com/practice/e8a1b01a2df14cb2b228b30ee6a92163)
