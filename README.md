@@ -1402,7 +1402,10 @@ public:
 要得出一个排序的链表，所以必须要`中序遍历`，并在遍历中处理双向的链接。
 
 首先定义个`head`字段用来记录头节点，一旦找到第一个节点，就赋值给`head`
+
 然后定义`pre`字段用来记录遍历中之前加入链表的节点，一旦确认一个节点加入到列表，就要用`pre`作为这个节点的左节点`node->left = pre`，把这个节点作为`pre`的右节点`pre->right = node`,之后当前节点赋值给`pre`，继续遍历。
+
+详细看代码吧
 
 ### 代码
 
@@ -1426,16 +1429,23 @@ public:
 private:
     TreeNode* head=NULL;
     TreeNode* pre=NULL;
+
     void helper(TreeNode* node){
         if (node == NULL)
             return;
+        // 中序遍历标准递归
         helper(node->left);
+        //node的左边放pre
         node->left = pre;
         if (pre != NULL)
+             //pre的右边放node
             pre->right = node;
+        //把node赋值给pre
         pre = node;
         if (head == NULL)
+            //找到头节点了
             head = node;
+        //中序遍历标准递归
         helper(node->right);
     }
 };
@@ -1444,6 +1454,63 @@ private:
 ### 调试
 
 [二叉搜索树与双向链表](https://www.nowcoder.com/practice/947f6eb80d944a84850b0538bf0ec3a5)
+
+## 27 字符串的排列
+
+### 描述
+
+输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。
+
+__输入一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。__
+
+### 思路
+
+标准的回溯算法题
+
+把一个字符串看成两部分组成：第一部分为第一个字符，第二部分为后面的所有字符。
+
+求整个字符串的排列，可以看出两步：首先求所有可能出现在第一个位置的字符，即把第一个字符和后面的所有字符交换；然后固定第一个字符，求后面所有字符的排序。此时仍把后面的字符看成两部分，第一个字符和后面的字符，然后重复上述步骤。（递归）
+
+
+### 代码
+````c++
+class Solution {
+public:
+    void swap(char* c1,char* c2){
+        char tmp=*c1;
+        *c1=*c2;
+        *c2=tmp;
+    }
+     
+    void Permutation(string &str,int begin,vector<string> &result){
+        int len=str.length();
+        if(begin==len-1)
+            result.push_back(str);
+        else{
+            for(int i=begin;i<len;i++){
+                if(i==begin || str[i]!=str[begin]){
+                    swap(&str[begin],&str[i]);
+                    Permutation(str,begin+1,result);
+                    swap(&str[begin],&str[i]);  
+                }
+            }
+        }
+    }
+     
+    vector<string> Permutation(string str) {
+        vector<string> result;
+        if(str.length()>0){
+            Permutation(str,0,result);
+            sort(result.begin(),result.end());
+        }
+        return result;
+    }
+};
+````
+
+### 调试
+
+[字符串的排列](https://www.nowcoder.com/practice/fe6b651b66ae47d7acce78ffdd9a96c7)
 
 ## 28 数组中出现次数超过一半的数字
 
