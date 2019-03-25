@@ -1455,7 +1455,8 @@ private:
 
 多数投票问题，可以利用 Boyer-Moore Majority Vote Algorithm 来解决这个问题，使得时间复杂度为 O(N)。
 
-这个算法也很好理解，就是投票，遍历数组，用`major`, `counts`分别记录大多数的值和它相应的票数。如果遇到反对的（遍历的时候发现跟`major`不同的），就减一，赞同的就加一。如果票数变为零，而且跟`major`不同，`major`就换个数字，直到遍历结束。这时候`major`的值就是一般情况就是答案了，可是这个题是可以存在没有超过一半的数字的情况的，所以，接下来还要验证这个`major`是不是大多数，再来一次遍历，确认`major`是否超过数组一半，如果，没超过那就不存在大多数的数了，所以返回0，如果超过，那`major`就是答案了。
+这个算法也很好理解，就是投票。遍历数组，用`major`, `counts`分别记录大多数的值和它相应的票数。如果遇到反对的（遍历的时候发现跟`major`不同的），就减一，赞同的就加一。如果票数变为零，而且跟`major`不同，`major`就换个数字，直到遍历结束。这时候`major`的值就是就是答案了，但是这个题是可以存在没有超过一半的数字的情况的，所以，接下来还要验证这个`major`是不是大多数，再来一次遍历，确认`major`是否超过数组一半，如果，没超过那就不存在大多数的数了，所以返回0，如果超过，那`major`就是答案了。
+
 
 ### 代码
 
@@ -1484,3 +1485,102 @@ public:
 ### 调试
 
 [数组中出现次数超过一半的数字](https://www.nowcoder.com/practice/e8a1b01a2df14cb2b228b30ee6a92163)
+
+## 29 最小的K个数
+
+### 描述
+
+输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
+
+### 思路
+
+有两个方案：
+
+1. 快排
+    快速排序的 partition() 方法，会返回一个整数 j 使得 a[l..j-1] 小于等于 a[j]，且 a[j+1..h] 大于等于 a[j]，此时 a[j] 就是数组的第 j 大元素。可以利用这个特性找出数组的第 K 个元素，这种找第 K 个元素的算法称为快速选择算法。
+2. 最大堆
+    构建k个整数的最大堆数据结构，然后将剩余n-k个整数依次与堆顶比较，大则抛弃，小则删除堆顶并插入，最后的最大堆就是最小的k个整数.
+
+### 代码
+
+#### 快排
+
+````c++
+class Solution {
+public:
+    vector<int> GetLeastNumbers_Solution(vector<int> input, int k) {
+        vector<int> ret;
+        if (k > input.size() || k <= 0)
+            return ret;
+        findKthSmallest(input, k - 1);
+        for (int i = 0; i < k; i++)
+            ret.push_back(input[i]);
+        return ret;
+    }
+    
+private:
+    void findKthSmallest(vector<int>& nums, int k) {
+        int l = 0, h = nums.size() - 1;
+        while (l < h) {
+            int j = partition(nums, l, h);
+            if (j == k)
+                break;
+            if (j > k)
+                h = j - 1;
+            else
+                l = j + 1;
+        }
+    }
+
+    int partition(vector<int>& nums, int l, int h) {
+        int p = nums[l];
+        int i = l, j = h + 1;
+        while (true) {
+            while (i != h && nums[++i] < p) ;
+            while (j != l && nums[--j] > p) ;
+            if (i >= j)
+                break;
+            swap(nums[i],nums[j]);
+        }
+        swap(nums[l],nums[j]);
+        return j;
+    }
+};
+````
+
+#### 最大堆
+
+````c++
+class Solution {
+public:
+    typedef priority_queue<int,vector<int>,less<int> > PQ;
+    vector<int> GetLeastNumbers_Solution(vector<int> input, int k) {
+        vector<int> output;
+        if(k<1 || input.size()<k)
+            return output;
+ 
+        PQ LeastNumbers;
+        for(auto it=input.begin();it!=input.end();it++){
+            if(LeastNumbers.size()<k)
+                LeastNumbers.push(*it);
+            else{
+                int greatest=LeastNumbers.top();
+                if(*it<greatest){
+                    LeastNumbers.pop();
+                    LeastNumbers.push(*it);
+                }
+            }
+        }
+        while(!LeastNumbers.empty()){
+            output.push_back(LeastNumbers.top());
+            LeastNumbers.pop();
+        }
+ 
+        return output;
+    }
+};
+````
+
+### 调试
+
+[最小的K个数](https://www.nowcoder.com/practice/6a296eb82cf844ca8539b57c23e6e9bf)
