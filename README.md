@@ -1738,3 +1738,47 @@ public:
 ### 调试
 
 [整数中1出现的次数（从1到n整数中1出现的次数）](https://www.nowcoder.com/practice/bd7f978302044eee894445e244c7eee6)
+
+## 32 把数组排成最小的数
+
+### 描述
+
+输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
+
+### 思路
+
+这道题其实就是对数组排序，哪个在前哪个在后，只要给出一个合适的比较方法即可。
+
+    if mn>nm n要在m之前
+    if mn<nm m要在n之前
+
+    其中n，m分别是数组的元素，mn代表这个两个元素的字符串拼接后的字符串，mn和nm这两个字符串的比较的结果基本可以决定排序的结果了。
+
+例如 3 32两个元素，"332">"323" ,所以32要排在3之前
+
+### 代码
+
+````c++
+class Solution {
+public:
+    static bool compare(int a,int b){
+        string strNum1=to_string(a);
+        string strNum2=to_string(b);
+        return (strNum1+strNum2)<(strNum2+strNum1);
+    }
+     
+    string PrintMinNumber(vector<int> numbers) {
+        string result;
+        if(numbers.empty())
+            return result;
+        sort(numbers.begin(),numbers.end(),compare);
+        for(auto i=0;i<numbers.size();i++)
+            result+=to_string(numbers[i]);
+        return result;
+    }
+};
+````
+
+### 调试
+
+[把数组排成最小的数](https://www.nowcoder.com/practice/8fecd3f8ba334add803bf2a06af1b993)
