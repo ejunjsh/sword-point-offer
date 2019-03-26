@@ -1825,3 +1825,36 @@ public:
 ### 调试
 
 [丑数](https://www.nowcoder.com/practice/6aa9e04fc3794f68acf8778237ba065b)
+
+## 34 第一个只出现一次的字符
+
+### 描述
+
+在一个字符串(0<=字符串长度<=10000，全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置, 如果没有则返回 -1（需要区分大小写）.
+
+### 思路
+
+基本思路可以用hashmap，key是字符，value是出现的次数，遍历两次，第一次填充hashmap，第二次就取出次数为一的字符。
+
+但是如果确认是ASCII字符的话，就建一个256的数组，索引为字符的ASCII码，值是次数，接下来跟上面一样了，代码用的是数组方式。
+
+### 代码
+
+````c++
+class Solution {
+public:
+    int FirstNotRepeatingChar(string str) {
+        vector<int> cnts(256,0);
+        for (int i = 0; i < str.size(); i++)
+            cnts[str[i]]++;
+        for (int i = 0; i < str.size(); i++)
+            if (cnts[str[i]] == 1)
+                return i;
+        return -1;
+    }
+};
+````
+
+### 调试
+
+[第一个只出现一次的字符](https://www.nowcoder.com/practice/1c82e8cf713b4bbeb2a5b31cf5b0417c)
