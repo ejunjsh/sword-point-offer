@@ -1858,3 +1858,84 @@ public:
 ### 调试
 
 [第一个只出现一次的字符](https://www.nowcoder.com/practice/1c82e8cf713b4bbeb2a5b31cf5b0417c)
+
+## 数组中的逆序对
+
+### 描述
+
+在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将P对1000000007取模的结果输出。 即输出P%1000000007
+
+### 思路
+
+最简单的方法就是遍历每个元素，对于每个元素跟它前面后面的每个元素比较，如果比前面小，就加一，比后面大就加一
+
+还有一个方法就是归并，把数组进行二分(divide)，不断递归下去,然后当分到只有两个元素时候，开始合并(merge)，合并就为了排序和累计逆序对的数量，每次合并之后都是一个升序排序的数组。
+
+合并就做了两件事
+1. 在数组里面选择头元素和中间的那个元素比较，如果前面大话，就把他们的索引之差加到累计的变量里面，为什么呢，因为前面到中间的那段数组已经是有序的了，所以头元素大的话，那么在他们之间的元素都大于中间那个。之后小的那个元素放入临时数组。然后再选择两个元素，重复上面。
+2. 把临时数组的值拷进原来的数组
+
+
+例如：
+
+    4 3 2 1
+
+    divide : 4 3 | 2 1  
+    merge: 4 3  
+        4比3大，所以cnt+1
+    merge: 2 1  
+        2比1大，所以cnt+1
+    merge： 3 4 1 2  
+        1 比 4 和 3 都小，所以cnt+2
+        2 比 4 和 3 都小，所以cnt+2
+
+所以cnt=6
+
+### 代码
+
+````c++
+class Solution {
+public:
+    int InversePairs(vector<int> data) {
+        tmp = vector<int>(data.size());
+        divide(data, 0, data.size() - 1);
+        return (int) (cnt % 1000000007);
+    }
+    
+private:
+    long cnt = 0;
+    vector<int> tmp; 
+
+    void divide(vector<int>& nums, int l, int h) {
+        if (h - l < 1)
+            return;
+        int m = l + (h - l) / 2;
+        divide(nums, l, m);
+        divide(nums, m + 1, h);
+        merge(nums, l, m, h);
+    }
+
+    void merge(vector<int>& nums, int l, int m, int h) {
+        int i = l, j = m + 1, k = l;
+        while (i <= m || j <= h) {
+            if (i > m)
+                tmp[k] = nums[j++];
+            else if (j > h)
+                tmp[k] = nums[i++];
+            else if (nums[i] < nums[j])
+                tmp[k] = nums[i++];
+            else {
+                tmp[k] = nums[j++];
+                cnt += m - i + 1; 
+            }
+            k++;
+        }
+        for (k = l; k <= h; k++)
+            nums[k] = tmp[k];
+    }
+};
+````
+
+### 调试
+
+[数组中的逆序对](https://www.nowcoder.com/practice/96bd6684e04a44eb80e6a68efc0ec6c5)
