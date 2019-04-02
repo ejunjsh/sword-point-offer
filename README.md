@@ -1939,3 +1939,42 @@ private:
 ### 调试
 
 [数组中的逆序对](https://www.nowcoder.com/practice/96bd6684e04a44eb80e6a68efc0ec6c5)
+
+## 两个链表的第一个公共结点
+
+### 描述
+
+输入两个链表，找出它们的第一个公共结点。
+
+### 思路
+
+你可以比喻两个人分别从他们家出门，去上学，总有一天会在上学路上碰上面的。所以只要走到链表结尾（学校），就立即又从链表头开始（家），肯定会相遇的。
+
+### 代码
+
+````c++
+/*
+struct ListNode {
+	int val;
+	struct ListNode *next;
+	ListNode(int x) :
+			val(x), next(NULL) {
+	}
+};*/
+class Solution {
+public:
+    ListNode* FindFirstCommonNode( ListNode* pHead1, ListNode* pHead2) {
+        ListNode* l1 = pHead1;
+        ListNode* l2 = pHead2;
+        while (l1 != l2) {
+            l1 = (l1 == NULL) ? pHead1 : l1->next;
+            l2 = (l2 == NULL) ? pHead2 : l2->next;
+        }
+        return l1;
+    }
+};
+````
+
+### 调试
+
+[两个链表的第一个公共结点](https://www.nowcoder.com/practice/6ab1d9a29e88450685099d45c9e31e46)
