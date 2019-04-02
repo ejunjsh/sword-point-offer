@@ -1859,7 +1859,7 @@ public:
 
 [第一个只出现一次的字符](https://www.nowcoder.com/practice/1c82e8cf713b4bbeb2a5b31cf5b0417c)
 
-## 数组中的逆序对
+## 35 数组中的逆序对
 
 ### 描述
 
@@ -1940,7 +1940,7 @@ private:
 
 [数组中的逆序对](https://www.nowcoder.com/practice/96bd6684e04a44eb80e6a68efc0ec6c5)
 
-## 两个链表的第一个公共结点
+## 36 两个链表的第一个公共结点
 
 ### 描述
 
@@ -1978,3 +1978,44 @@ public:
 ### 调试
 
 [两个链表的第一个公共结点](https://www.nowcoder.com/practice/6ab1d9a29e88450685099d45c9e31e46)
+
+
+## 37 数字在排序数组中出现的次数
+
+### 描述
+
+统计一个数字在排序数组中出现的次数。
+
+### 思路
+
+二分查找，查找这个数字第一次出现的位置，和最后一次出现的位置，相减就是答案了。
+
+### 代码
+
+````c++
+class Solution {
+public:
+    int GetNumberOfK(vector<int> data ,int k) {
+         int first = binarySearch(data, k);
+        int last = binarySearch(data, k + 1);
+        return (first == data.size() || data[first] != k) ? 0 : last - first;
+    }
+    
+private:
+    int binarySearch(vector<int>& nums, int k) {
+        int l = 0, h = nums.size();
+        while (l < h) {
+            int m = l + (h - l) / 2;
+            if (nums[m] >= k)
+                h = m;
+            else
+                l = m + 1;
+        }
+        return l;
+    }
+};
+````
+
+### 调试
+
+[数字在排序数组中出现的次数](https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2)
