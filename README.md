@@ -1996,8 +1996,8 @@ public:
 class Solution {
 public:
     int GetNumberOfK(vector<int> data ,int k) {
-         int first = binarySearch(data, k);
-        int last = binarySearch(data, k + 1);
+        int first = binarySearch(data, k);
+        int last = binarySearch(data, k + 1); //搜索比这个数字大1的数字，即搜索这个数字最后一次出现的位置
         return (first == data.size() || data[first] != k) ? 0 : last - first;
     }
     
@@ -2019,3 +2019,38 @@ private:
 ### 调试
 
 [数字在排序数组中出现的次数](https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2)
+
+## 二叉树的深度
+
+### 描述
+
+输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。
+
+### 思路
+
+dfs递归，下面代码一看就明白的了
+
+### 代码
+
+````c++
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    int TreeDepth(TreeNode* pRoot)
+    {
+        return pRoot == NULL ? 0 : 1 + max(TreeDepth(pRoot->left), TreeDepth(pRoot->right));
+    }
+};
+````
+
+### 调试
+
+[二叉树的深度](https://www.nowcoder.com/practice/435fb86331474282a3499955f0a41e8b)
