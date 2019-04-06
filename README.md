@@ -2020,7 +2020,7 @@ private:
 
 [数字在排序数组中出现的次数](https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2)
 
-## 二叉树的深度
+## 38 二叉树的深度
 
 ### 描述
 
@@ -2054,3 +2054,37 @@ public:
 ### 调试
 
 [二叉树的深度](https://www.nowcoder.com/practice/435fb86331474282a3499955f0a41e8b)
+
+
+## 39 平衡二叉树
+
+### 描述
+
+输入一棵二叉树，判断该二叉树是否是平衡二叉树。平衡二叉树左右子树高度差不超过 1。
+
+### 思路
+
+还是dfs递归下去，下面代码一看就明白的了
+
+### 代码
+
+````c++
+class Solution {
+private:
+    bool isBalanced=true;
+    int height(TreeNode* root) {
+        if (root == NULL || !isBalanced)
+            return 0;
+        int left = height(root->left);
+        int right = height(root->right);
+        if (abs(left - right) > 1)
+            isBalanced = false;
+        return 1 + max(left, right);
+    }
+public:
+    bool IsBalanced_Solution(TreeNode* pRoot) {
+        height(pRoot);
+        return isBalanced;
+    }
+};
+````
