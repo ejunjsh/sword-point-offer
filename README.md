@@ -2088,3 +2088,65 @@ public:
     }
 };
 ````
+
+### 调试
+
+[平衡二叉树](https://www.nowcoder.com/practice/8b3b95850edb4115918ecebdf1b4d222)
+
+## 40 数组中只出现一次的数字
+
+### 描述
+
+一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。
+
+### 思路
+
+因为
+
+    a ^ a=0;
+    0 ^ b=b;
+所以
+ 
+    a ^ b ^ a = b
+
+b在[a,b,a]是出现一次的数字
+
+可现在有两个出现一次的数字了，例如 [a,b,a,c],那么对它们每个异或一次的结果是
+
+    diff=a ^ b ^ a ^ c = b ^ c
+
+这还是解不出来啊，别急，如果将上面的数组分成两个，每个分别有一个出现一次的数字，
+
+那么就可以对每个数组的每个元素异或，就可以找出那两个数字了.
+
+如何分数组呢？
+
+上面的diff的用处就是他的最右为1的位，可以用这个条件来分数组。因为异或为1的位，代表了两个数字在这个位不同。
+
+所以 b 和 c在那个位肯定是0和1或者1和0。利用这点就可以分数组了。
+
+理解上面的话，代码就不难理解了。
+
+### 代码
+
+````c++
+class Solution {
+public:
+    void FindNumsAppearOnce(vector<int> data,int* num1,int *num2) {
+       int diff = 0;
+        for (int num : data)
+            diff ^= num;
+        diff &= -diff; //求出最右为1的位，其余为零
+        for (int num : data) {
+            if ((num & diff) == 0)  
+                *num1 ^= num; // 位为0
+            else
+                *num2 ^= num; // 位为1
+        }
+    }
+};
+````
+
+### 调试
+
+[数组中只出现一次的数字](https://www.nowcoder.com/practice/e02fdb54d7524710a7d664d082bb7811)
