@@ -2150,3 +2150,53 @@ public:
 ### 调试
 
 [数组中只出现一次的数字](https://www.nowcoder.com/practice/e02fdb54d7524710a7d664d082bb7811)
+
+## 41 和为S的连续正数序列
+
+### 描述
+
+小明很喜欢数学,有一天他在做数学作业时,要求计算出9~16的和,他马上就写出了正确答案是100。但是他并不满足于此,他在想究竟有多少种连续的正数序列的和为100(至少包括两个数)。没多久,他就得到另一组连续正数和为100的序列:18,19,20,21,22。现在把问题交给你,你能不能也很快的找出所有和为S的连续正数序列? Good Luck!
+
+> 输出所有和为S的连续正数序列。序列内按照从小至大的顺序，序列间按照开始数字从小到大的顺序
+
+### 思路
+
+由于数字是连续的，所以这条题其实就是要你找出开始的位置和结束的位置即可。
+
+下面代码就很好理解了
+
+### 代码
+
+````c++
+class Solution {
+public:
+    vector<vector<int> > FindContinuousSequence(int sum) {
+        vector<vector<int> > ret;
+        int start = 1, end = 2;
+        int curSum = 3;
+        while (end < sum) {
+            if (curSum > sum) {
+                curSum -= start;
+                start++;
+            } else if (curSum < sum) {
+                end++;
+                curSum += end;
+            } else {
+                vector<int> list;
+                for (int i = start; i <= end; i++)
+                    list.push_back(i);
+                ret.push_back(list);
+                curSum -= start;
+                start++;
+                end++;
+                curSum += end;
+            }
+        }
+        return ret;
+    }
+};
+````
+
+### 调试
+
+[和为S的连续正数序列](https://www.nowcoder.com/practice/c451a3fd84b64cb19485dad758a55ebe)
