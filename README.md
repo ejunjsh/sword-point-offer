@@ -2163,6 +2163,8 @@ public:
 
 由于数字是连续的，所以这条题其实就是要你找出开始的位置和结束的位置即可。
 
+使用双指针，一个记录头，一个记录尾，按照条件，把头或尾累加或剔除，满足条件的加入到结果集里面
+
 下面代码就很好理解了
 
 ### 代码
@@ -2200,3 +2202,40 @@ public:
 ### 调试
 
 [和为S的连续正数序列](https://www.nowcoder.com/practice/c451a3fd84b64cb19485dad758a55ebe)
+
+## 42 和为S的两个数字
+
+### 描述
+
+输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。
+
+### 思路
+
+这道题跟上一道一样，也是双指针，但是更简单
+
+下面代码算是可以自解释的了
+
+### 代码
+
+````c++
+class Solution {
+public:
+    vector<int> FindNumbersWithSum(vector<int> array,int sum) {
+        int i = 0, j = array.size() - 1;
+        while (i < j) {
+            int cur = array[i] + array[j];
+            if (cur == sum)
+                return {array[i],array[j]};
+            if (cur < sum)
+                i++; 
+            else
+                j--;
+        }
+        return vector<int>();
+    }
+};
+````
+
+### 调试
+
+[和为S的两个数字](https://www.nowcoder.com/practice/390da4f7a00f44bea7c2f3d19491311b)
