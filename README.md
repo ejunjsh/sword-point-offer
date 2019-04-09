@@ -2240,40 +2240,32 @@ public:
 
 [和为S的两个数字](https://www.nowcoder.com/practice/390da4f7a00f44bea7c2f3d19491311b)
 
-## 43 二叉树的深度
+## 43 左旋转字符串
 
 ### 描述
 
-输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。
+汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！
 
 ### 思路
 
-dfs, 递归，即可
+先反转前面k个字符，再反转剩下的字符，最后对整个字符串再反转。
 
 ### 代码
 
 ````c++
-/*
-struct TreeNode {
-	int val;
-	struct TreeNode *left;
-	struct TreeNode *right;
-	TreeNode(int x) :
-			val(x), left(NULL), right(NULL) {
-	}
-};*/
 class Solution {
 public:
-    int TreeDepth(TreeNode* pRoot)
-    {
-        if(pRoot==NULL){
-            return 0;
-        }
-        return 1 + max(TreeDepth(pRoot->left),TreeDepth(pRoot->right));
+    string LeftRotateString(string str, int n) {
+      if (n >= str.size())
+        return str;
+      reverse(str.begin(),str.begin()+n);
+      reverse(str.begin()+n, str.end());
+      reverse(str.begin(),str.end());
+      return str;    
     }
 };
 ````
 
 ### 调试
 
-[二叉树的深度](https://www.nowcoder.com/practice/435fb86331474282a3499955f0a41e8b)
+[左旋转字符串](https://www.nowcoder.com/practice/12d959b108cb42b1ab72cef4d36af5ec)
