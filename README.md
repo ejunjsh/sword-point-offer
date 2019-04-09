@@ -2269,3 +2269,37 @@ public:
 ### 调试
 
 [左旋转字符串](https://www.nowcoder.com/practice/12d959b108cb42b1ab72cef4d36af5ec)
+
+## 44 翻转单词顺序列
+
+### 描述
+
+牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
+
+### 思路
+
+跟上题解法类似，先翻转每个单词，然后再翻转整个句子
+
+### 代码
+
+````c++
+class Solution {
+public:
+    string ReverseSentence(string str) {
+        int last=0;
+        for(int i=0;i<str.size();i++){
+            if(str[i]==' '){
+                reverse(str.begin()+last,str.begin()+i); //翻转空格前的单词
+                last=i+1;
+            }
+        }
+        reverse(str.begin()+last,str.end()); //翻转最后一个单词
+        reverse(str.begin(),str.end()); // 翻转整个句子
+        return str;  
+    }
+};
+````
+
+### 调试
+
+[翻转单词顺序列](https://www.nowcoder.com/practice/3194a4f4cf814f63919d0790578d51f3)
