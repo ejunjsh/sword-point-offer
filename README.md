@@ -2303,3 +2303,48 @@ public:
 ### 调试
 
 [翻转单词顺序列](https://www.nowcoder.com/practice/3194a4f4cf814f63919d0790578d51f3)
+
+## 45 扑克牌顺子
+
+### 描述
+
+LL今天心情特别好,因为他去买了一副扑克牌,发现里面居然有2个大王,2个小王(一副牌原本是54张^_^)...他随机从中抽出了5张牌,想测测自己的手气,看看能不能抽到顺子,如果抽到的话,他决定去买体育彩票,嘿嘿！！“红心A,黑桃3,小王,大王,方片5”,“Oh My God!”不是顺子.....LL不高兴了,他想了想,决定大\小 王可以看成任何数字,并且A看作1,J为11,Q为12,K为13。上面的5张牌就可以变成“1,2,3,4,5”(大小王分别看作2和4),“So Lucky!”。LL决定去买体育彩票啦。 现在,要求你使用这幅牌模拟上面的过程,然后告诉我们LL的运气如何， 如果牌能组成顺子就输出true，否则就输出false。为了方便起见,你可以认为大小王是0。
+
+### 思路
+
+由于大小王可以替代所有牌，而且他的值是0，所以可以一开始对数组排序，然后统计大小王数量，而且大小王肯定是在前面，之后比较其他牌，如果两个牌之间不是差一，就用大小王补，如果相等，那肯定不是顺子了。
+
+最后如果大小王数量补完后剩下大于等于0，代表就是顺子了，少于0那就不是顺子了。
+
+### 代码
+
+````c++
+class Solution {
+public:
+    bool IsContinuous( vector<int> numbers ) {
+        if (numbers.size() < 5)
+            return false;
+
+        sort(numbers.begin(),numbers.end());
+
+        // 统计大小王数量
+        int cnt = 0;
+        for (int num : numbers)
+            if (num == 0)
+                cnt++;
+
+        // 使用大小王去补全不连续的顺子
+        for (int i = cnt; i < numbers.size() - 1; i++) {
+            if (numbers[i + 1] == numbers[i])
+                return false;
+            cnt -= numbers[i + 1] - numbers[i] - 1;
+        }
+
+        return cnt >= 0;
+    }
+};
+````
+
+### 调试
+
+[扑克牌顺子](https://www.nowcoder.com/practice/762836f4d43d43ca9deb273b3de8e1f4)
