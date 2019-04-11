@@ -2378,3 +2378,31 @@ public:
 ### 调试
 
 [孩子们的游戏(圆圈中最后剩下的数)](https://www.nowcoder.com/practice/f78a359491e64a50bce2d89cff857eb6)
+
+## 47 求1+2+3+...+n
+
+### 描述
+
+求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。
+
+### 思路
+
+用&&就可以实现if的效果，因为&&左边为false时，右边是不执行的。
+
+还要用到递归
+
+### 代码
+
+````c++
+class Solution {
+public:
+    int Sum_Solution(int n) {
+        (n > 0)&& (n += Sum_Solution(n - 1));
+        return n;
+    }
+};
+````
+
+### 调试
+
+[求1+2+3+...+n](https://www.nowcoder.com/practice/7a0da8fc483247ff8800059e12d7caf1)
