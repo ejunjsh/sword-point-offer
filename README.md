@@ -2455,3 +2455,40 @@ public:
 ### 调试
 
 [不用加减乘除做加法](https://www.nowcoder.com/practice/59ac416b4b944300b617d4f7f111b215)
+
+## 49 把字符串转换成整数
+
+### 描述
+
+将一个字符串转换成一个整数(实现Integer.valueOf(string)的功能，但是string不符合数字要求时返回0)，要求不能使用字符串转换整数的库函数。 数值为0或者字符串不是一个合法的数值则返回0。
+
+### 思路
+
+典型字符串问题，代码应该是自解释的了，所以看代码吧
+
+### 代码
+
+````c++
+class Solution {
+public:
+    int StrToInt(string str) {
+        int n=str.size();
+        if (n == 0)
+            return 0;
+        int ret = 0;
+        for (int i = 0; i < n; i++) {
+            char c = str[i];
+            if (i == 0 && (c == '+' || c == '-'))  //验证符号
+                continue;
+            if (c < '0' || c > '9')                //非法输入
+                return 0;
+            ret = ret * 10 + (c - '0');
+        }
+        return str[0] == '-' ? -ret : ret;
+    }
+};
+````
+
+### 调试
+
+[把字符串转换成整数](https://www.nowcoder.com/practice/1277c681251b4372bdef344468e4f26e)
