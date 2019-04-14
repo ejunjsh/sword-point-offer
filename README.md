@@ -2493,7 +2493,7 @@ public:
 
 [把字符串转换成整数](https://www.nowcoder.com/practice/1277c681251b4372bdef344468e4f26e)
 
-## 数组中重复的数字
+## 50 数组中重复的数字
 
 ### 描述
 
@@ -2533,4 +2533,50 @@ public:
 };
 ````
 
+### 调试
+
 [数组中重复的数字](https://www.nowcoder.com/practice/623a5ac0ea5b4e5f95552655361ae0a8)
+
+
+## 51 构建乘积数组
+
+### 描述
+
+    给定一个数组A[0,1,...,n-1],请构建一个数组B[0,1,...,n-1],其中B中的元素B[i]=A[0]*A[1]*...*A[i-1]*A[i+1]*...*A[n-1]。不能使用除法。
+
+### 思路
+
+这条题粗暴点的话，可以遍历B的时候，遍历A，把A元素全部相乘，再放入B的元素里面，可这样就是平方级别的复杂度。
+
+所以，这里利用两个循环，一个从左，一个从右，
+
+从左循环时，利用一个变量product作为循环过程的乘积，然后把他赋值给b的每个元素，这样的结果就是
+
+    B[i]=A[0]*A[1]*...*A[i-1]
+
+从右循环时，还是利用这个变量product作为循环过程的乘积，然后把他与b的当前元素相乘，再赋值给b当前元素，这样的结果就是把剩下的乘积加入进来
+
+    B[i]=B[i]*A[i+1]*...*A[n-1]
+
+接下来看代码就很好理解了
+
+### 代码
+
+````c++
+class Solution {
+public:
+    vector<int> multiply(const vector<int>& A) {
+        int n = A.size();
+        vector<int> B(n,0);
+        for (int i = 0, product = 1; i < n; product *= A[i], i++)       //从左往右
+            B[i] = product;
+        for (int i = n - 1, product = 1; i >= 0; product *= A[i], i--)  //从右往左
+            B[i] *= product;
+        return B;
+    }
+};
+````
+
+### 调试
+
+[构建乘积数组](https://www.nowcoder.com/practice/94a4d381a68b47b7a8bed86f2975db46)
