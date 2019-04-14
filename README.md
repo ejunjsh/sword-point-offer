@@ -2492,3 +2492,45 @@ public:
 ### 调试
 
 [把字符串转换成整数](https://www.nowcoder.com/practice/1277c681251b4372bdef344468e4f26e)
+
+## 数组中重复的数字
+
+### 描述
+
+在一个长度为 n 的数组里的所有数字都在 0 到 n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字是重复的，也不知道每个数字重复几次。请找出数组中任意一个重复的数字。
+
+### 思路
+
+由于数字大小范围都是小于n的，所以可以将值为 i 的元素调整到第 i 个位置上进行求解
+
+在遍历数组的时候，发现本该属于i的位置已经被相同数字占据了，就代表找到重复的数字了。
+
+### 代码
+
+````c++
+class Solution {
+public:
+    // Parameters:
+    //        numbers:     an array of integers
+    //        length:      the length of array numbers
+    //        duplication: (Output) the duplicated number in the array number
+    // Return value:       true if the input is valid, and there are some duplications in the array number
+    //                     otherwise false
+    bool duplicate(int nums[], int length, int* duplication) {
+        if (nums == nullptr || length <= 0)
+            return false;
+        for (int i = 0; i < length; i++) {
+            while (nums[i] != i) {
+                if (nums[i] == nums[nums[i]]) {
+                    *duplication = nums[i];
+                    return true;
+                }
+                swap(nums[i],nums[nums[i]]);
+            }
+        }
+        return false;
+    }
+};
+````
+
+[数组中重复的数字](https://www.nowcoder.com/practice/623a5ac0ea5b4e5f95552655361ae0a8)
