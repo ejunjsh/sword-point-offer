@@ -2676,7 +2676,7 @@ public:
 
 [表示数值的字符串](https://www.nowcoder.com/practice/6f8c901d091949a5837e24bb82a731f2)
 
-## 53 字符流中第一个不重复的字符
+## 54 字符流中第一个不重复的字符
 
 ### 描述
 
@@ -2719,3 +2719,52 @@ public:
 ### 调试
 
 [字符流中第一个不重复的字符](https://www.nowcoder.com/practice/00de97733b8e4f97a3fb5c680ee10720)
+
+## 55 链表中环的入口结点
+
+### 描述
+
+给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
+
+### 思路
+
+第一步，用两个快慢指针找环中相汇点。分别用slow, fast指向链表头部，slow每次走一步，fast每次走二步，直到fast == slow找到在环中的相汇点。
+第二步，找环的入口。当fast == slow时，假设slow走过x个节点，则fast走过2x个节点。设环中有n个节点，因为fast比slow多走一圈（n个节点），所以有等式2x = n + x，可以推出n = x，即slow实际上走了一个环的步数。这时，我们让fast重新指向链表头部pHead，slow的位置不变，然后slow和fast一起向前每次走一步，直到fast == slow，此时两个指针相遇的节点就是环的入口。
+
+
+### 代码
+
+````c++
+/*
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) :
+        val(x), next(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    ListNode* EntryNodeOfLoop(ListNode* pHead)
+    {
+        if (pHead == NULL || pHead->next == NULL)
+            return NULL;
+        ListNode* slow = pHead, *fast = pHead;
+        do {
+            fast = fast->next->next;
+            slow = slow->next;
+        } while (slow != fast);
+        fast = pHead;
+        while (slow != fast) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return slow;
+    }
+};
+````
+
+### 调试
+
+[链表中环的入口结点](https://www.nowcoder.com/practice/253d2c59ec3e4bc68da16833f79a38e4)
