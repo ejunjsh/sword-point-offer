@@ -2675,3 +2675,47 @@ public:
 ### 调试
 
 [表示数值的字符串](https://www.nowcoder.com/practice/6f8c901d091949a5837e24bb82a731f2)
+
+## 53 字符流中第一个不重复的字符
+
+### 描述
+
+请实现一个函数用来找出字符流中第一个只出现一次的字符。例如，当从字符流中只读出前两个字符"go"时，第一个只出现一次的字符是"g"。当从该字符流中读出前六个字符“google"时，第一个只出现一次的字符是"l"。
+
+如果当前字符流没有存在出现一次的字符，返回#字符。
+
+
+### 思路
+
+用一个队列保存进来的字符，用个256的字符数组来存放字符出现的次数，每次字符进来，累加这个字符的次数，并插入到队列，然后把次数大于一的出列，这样的话，队列的第一个元素就是第一个出现一次的字符了。
+
+
+### 代码
+
+````c++
+class Solution
+{
+private:
+    queue<char> q;
+    int count[256]={0};
+public:
+    //Insert one char from stringstream
+    void Insert(char ch)
+    {
+        count[ch]++;
+        q.push(ch);
+        while (!q.empty() && count[q.front()] > 1)
+            q.pop();
+    }
+    //return the first appearence once char in current stringstream
+    char FirstAppearingOnce()
+    {
+        return q.empty() ? '#' : q.front();
+    }
+ 
+};
+````
+
+### 调试
+
+[字符流中第一个不重复的字符](https://www.nowcoder.com/practice/00de97733b8e4f97a3fb5c680ee10720)
