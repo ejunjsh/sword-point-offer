@@ -2768,3 +2768,50 @@ public:
 ### 调试
 
 [链表中环的入口结点](https://www.nowcoder.com/practice/253d2c59ec3e4bc68da16833f79a38e4)
+
+## 56 删除链表中重复的结点
+
+### 描述
+
+在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+
+### 思路
+
+用递归，利用函数栈来保存每个节点，然后一直递归到底，中途把重复的去掉，不重复的在递归回来的时候，把函数栈里面保存的节点，一个个串联起来。
+
+以下代码算是自解释的了。
+
+### 代码
+
+````c++
+/*
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) :
+        val(x), next(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    ListNode* deleteDuplication(ListNode* pHead)
+    {
+        if (pHead == NULL || pHead->next == NULL)
+            return pHead;
+        ListNode* next = pHead->next;
+        if (pHead->val == next->val) {
+            while (next != NULL && pHead->val == next->val)
+                next = next->next;
+            return deleteDuplication(next);
+        } else {
+            pHead->next = deleteDuplication(pHead->next);
+            return pHead;
+        }
+    }
+};
+````
+
+### 调试
+
+[删除链表中重复的结点](https://www.nowcoder.com/practice/fc533c45b73a41b0b44ccba763f866ef)
