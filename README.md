@@ -2580,3 +2580,48 @@ public:
 ### 调试
 
 [构建乘积数组](https://www.nowcoder.com/practice/94a4d381a68b47b7a8bed86f2975db46)
+
+## 52 正则表达式匹配
+
+### 描述
+
+    请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
+
+### 思路
+
+这题可以用回溯法来做，但是有点浪费，因为有存在重复计算的步骤，所以用动态规划吧
+
+定义一个二维的P数组，其中P[i][j]表示s[0,i)和p[0,j)是否match，然后有下面三种情况
+
+   1. P[i][j] = P[i - 1][j - 1], if p[j - 1] != '*' && (s[i - 1] == p[j - 1] || p[j - 1] == '.');
+   2. P[i][j] = P[i][j - 2], if p[j - 1] == '*' and the pattern repeats for 0 times;
+   3. P[i][j] = P[i - 1][j] && (s[i - 1] == p[j - 2] || p[j - 2] == '.'), if p[j - 1] == '*' and the pattern repeats for at least 1 times.
+
+### 代码
+
+````c++
+class Solution {
+public:
+    bool match(char* str, char* pattern)
+    {
+        string s=str,p=pattern;
+        int m = s.size(), n = p.size();
+        vector<vector<bool>> dp(m + 1, vector<bool>(n + 1, false));
+        dp[0][0] = true;
+        for (int i = 0; i <= m; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                if (j > 1 && p[j - 1] == '*') {
+                    dp[i][j] = dp[i][j - 2] || (i > 0 && (s[i - 1] == p[j - 2] || p[j - 2] == '.') && dp[i - 1][j]);
+                } else {
+                    dp[i][j] = i > 0 && dp[i - 1][j - 1] && (s[i - 1] == p[j - 1] || p[j - 1] == '.');
+                }
+            }
+        }
+        return dp[m][n];
+    }
+};
+````
+
+### 调试
+
+[正则表达式匹配](https://www.nowcoder.com/practice/45327ae22b7b413ea21df13ee7d6429c)
