@@ -2589,7 +2589,7 @@ public:
 
 ### 思路
 
-这题可以用回溯法来做，但是有点浪费，因为有存在重复计算的步骤，所以用动态规划吧
+这题可以用递归来做，但是有点浪费，因为有存在重复计算的步骤，所以用动态规划吧
 
 定义一个二维的P数组，其中P[i][j]表示s[0,i)和p[0,j)是否match，然后有下面三种情况
 
@@ -2625,3 +2625,53 @@ public:
 ### 调试
 
 [正则表达式匹配](https://www.nowcoder.com/practice/45327ae22b7b413ea21df13ee7d6429c)
+
+## 53 表示数值的字符串
+
+### 描述
+
+请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串"+100","5e2","-123","3.1416"和"-1E-16"都表示数值。 但是"12e","1a3.14","1.2.3","+-5"和"12e+4.3"都不是。
+
+### 思路
+
+1. 对字符串中的每个字符进行判断分析
+2. e（E）后面只能接数字，并且不能出现2次
+3. 对于+、-号，只能出现在第一个字符或者是e的后一位
+4. 对于小数点，不能出现2次，e后面不能出现小数点
+
+### 代码
+
+````c++
+class Solution {
+public:
+    bool isNumeric(char* s)
+    {
+        string str=s;
+        // 标记符号、小数点、e是否出现过
+        bool sign = false, decimal = false, hasE = false;
+        for (int i = 0; i < str.size(); i++) {
+            if (str[i] == 'e' || str[i] == 'E') {
+                if (i == str.size() - 1) return false; // e后面一定要接数字
+                if (hasE) return false; // 不能同时存在两个e
+                hasE = true;
+            } else if (str[i] == '+' || str[i] == '-') {
+                // 第二次出现+-符号，则必须紧接在e之后
+                if (sign && str[i - 1] != 'e' && str[i - 1] != 'E') return false;
+                // 第一次出现+-符号，且不是在字符串开头，则也必须紧接在e之后
+                if (!sign && i > 0 && str[i - 1] != 'e' && str[i - 1] != 'E') return false;
+                sign = true;
+            } else if (str[i] == '.') {
+                // e后面不能接小数点，小数点不能出现两次
+                if (hasE || decimal) return false;
+                decimal = true;
+            } else if (str[i] < '0' || str[i] > '9') // 不合法字符
+                return false;
+        }
+        return true;
+    }
+
+};
+````
+### 调试
+
+[表示数值的字符串](https://www.nowcoder.com/practice/6f8c901d091949a5837e24bb82a731f2)
