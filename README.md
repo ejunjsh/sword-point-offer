@@ -2922,3 +2922,80 @@ public:
 ### 调试
 
 [对称的二叉树](https://www.nowcoder.com/practice/ff05d44dfdb04e1d83bdbdab320efbcb)
+
+## 59 按之字形顺序打印二叉树
+
+### 描述
+
+请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。
+
+### 思路
+
+利用树的层级遍历，只不过遍历的时候是用栈来存（一般都是用一个队列来存）
+
+在遍历的时候控制入栈的时候，是左节点还是右节点先入
+
+入栈的时候是入到一个临时的栈，遍历的时候又是另外一个栈，当遍历完一层之后，临时栈跟遍历的栈互换
+
+接下来看代码应该很好理解了
+
+### 代码
+
+````c++
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    vector<vector<int>> Print(TreeNode* root)
+    {
+        vector<vector<int>> result;
+        if(!root)
+            return result;
+
+        stack<TreeNode*> s;
+        vector<int> level;
+        stack<TreeNode*> nodes;
+        s.push(root);
+        bool leftToRight=true;
+        while(!s.empty())
+        {
+            TreeNode* n = s.top();
+            s.pop();
+            level.push_back(n->val);
+            if(leftToRight){
+                if(n->left)
+                    nodes.push(n->left);
+                if(n->right)
+                    nodes.push(n->right);
+            }else{
+                if(n->right)
+                    nodes.push(n->right);
+                if(n->left)
+                    nodes.push(n->left);
+            }
+            if(s.empty())
+            {
+                s.swap(nodes);
+                result.push_back(level);
+                level.clear();
+                leftToRight=!leftToRight;
+            }
+        }
+
+        return result;
+    }
+    
+};
+````
+
+### 调试
+
+[按之字形顺序打印二叉树](https://www.nowcoder.com/practice/91b69814117f4e8097390d107d2efbe0)
