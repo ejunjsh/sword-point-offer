@@ -2815,3 +2815,60 @@ public:
 ### 调试
 
 [删除链表中重复的结点](https://www.nowcoder.com/practice/fc533c45b73a41b0b44ccba763f866ef)
+
+## 57 二叉树的下一个结点
+
+### 描述
+
+给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+
+### 思路
+
+如果一个节点的右子树不为空，那么该节点的下一个节点是右子树的最左节点；
+
+[![](https://raw.githubusercontent.com/ejunjsh/sword-point-offer/master/images/binarytree-next-node.gif)](https://raw.githubusercontent.com/ejunjsh/sword-point-offer/master/images/binarytree-next-node.gif)
+
+否则，向上找第一个左链接指向的树包含该节点的祖先节点。
+
+[![](https://raw.githubusercontent.com/ejunjsh/sword-point-offer/master/images/binarytree-next-node-1.gif)](https://raw.githubusercontent.com/ejunjsh/sword-point-offer/master/images/binarytree-next-node-1.gif)
+
+
+### 代码
+
+````c++
+/*
+struct TreeLinkNode {
+    int val;
+    struct TreeLinkNode *left;
+    struct TreeLinkNode *right;
+    struct TreeLinkNode *next;
+    TreeLinkNode(int x) :val(x), left(NULL), right(NULL), next(NULL) {
+        
+    }
+};
+*/
+class Solution {
+public:
+    TreeLinkNode* GetNext(TreeLinkNode* pNode)
+    {
+         if (pNode->right != nullptr) {
+            TreeLinkNode* node = pNode->right;
+            while (node->left != nullptr)
+                node = node->left;
+            return node;
+        } else {
+            while (pNode->next != nullptr) {
+                TreeLinkNode* parent = pNode->next;
+                if (parent->left == pNode)
+                    return parent;
+                pNode = pNode->next;
+            }
+        }
+        return nullptr;
+    }
+};
+````
+
+### 调试
+
+[二叉树的下一个结点](https://www.nowcoder.com/practice/9023a0c988684a53960365b889ceaf5e)
