@@ -2872,3 +2872,53 @@ public:
 ### 调试
 
 [二叉树的下一个结点](https://www.nowcoder.com/practice/9023a0c988684a53960365b889ceaf5e)
+
+
+## 58 对称的二叉树
+
+### 描述
+
+请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
+
+### 思路
+
+递归,下面代码是自解释的了。
+
+### 代码
+
+````c++
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    bool isSymmetrical(TreeNode* pRoot)
+    {
+        if(pRoot==NULL){
+            return true;
+        }
+        return helper(pRoot->left,pRoot->right);
+    }
+    
+    bool helper(TreeNode* t1, TreeNode* t2) {
+        if (t1 == NULL && t2 == NULL)
+            return true;
+        if (t1 == NULL || t2 == NULL)
+            return false;
+        if (t1->val != t2->val)
+            return false;
+        return helper(t1->left, t2->right) && helper(t1->right, t2->left);
+    }
+};
+````
+
+### 调试
+
+[对称的二叉树](https://www.nowcoder.com/practice/ff05d44dfdb04e1d83bdbdab320efbcb)
