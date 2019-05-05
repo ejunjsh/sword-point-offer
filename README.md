@@ -2931,11 +2931,13 @@ public:
 
 ### 思路
 
-利用树的层级遍历，只不过遍历的时候是用栈来存（一般都是用一个队列来存）
+利用树的层级遍历，只不过遍历的时候是用栈来存（一般都是用一个队列来存），这样就可以实现特之字形输出
 
 在遍历的时候控制入栈的时候，是左节点还是右节点先入
 
 入栈的时候是入到一个临时的栈，遍历的时候又是另外一个栈，当遍历完一层之后，临时栈跟遍历的栈互换
+
+为什么要两个栈，如果用一个栈的话，刚加入栈的元素会影响原来遍历的顺序
 
 接下来看代码应该很好理解了
 
@@ -2999,3 +3001,57 @@ public:
 ### 调试
 
 [按之字形顺序打印二叉树](https://www.nowcoder.com/practice/91b69814117f4e8097390d107d2efbe0)
+
+## 把二叉树打印成多行
+
+### 描述
+
+从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。
+
+### 思路
+
+这条题是上一条题的简单版本，简单的层级遍历即可
+
+### 代码
+
+````c++
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+        vector<vector<int> > Print(TreeNode* pRoot) {
+             vector<vector<int> > ret;
+            queue<TreeNode*> q;
+            q.push(pRoot);
+            while (!q.empty()) {
+                vector<int> list;
+                int cnt = q.size();
+                while (cnt-- > 0) {
+                    TreeNode* node = q.front();
+                    q.pop();
+                    if (node == NULL)
+                        continue;
+                    list.push_back(node->val);
+                    q.push(node->left);
+                    q.push(node->right);
+                }
+                if (list.size() != 0)
+                    ret.push_back(list);
+            }
+            return ret;
+        }
+    
+};
+````
+
+### 调试
+
+[把二叉树打印成多行](https://www.nowcoder.com/practice/445c44d982d04483b04a54f298796288)
