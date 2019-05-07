@@ -3055,3 +3055,70 @@ public:
 ### 调试
 
 [把二叉树打印成多行](https://www.nowcoder.com/practice/445c44d982d04483b04a54f298796288)
+
+## 序列化二叉树
+
+### 描述
+
+请实现两个函数，分别用来序列化和反序列化二叉树
+
+### 思路
+
+还是老样子，深度搜索即可
+
+### 代码
+
+````c++
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    char* Serialize(TreeNode *root) {    
+        string s=SerializeHelper(root);
+        char *ret = new char[s.length() + 1];
+        strcpy(ret, s.c_str());
+        return ret;
+    }
+    
+    TreeNode* Deserialize(char *str) {
+        deserializeStr=str;
+        return Deserialize();
+    }
+
+private:
+    string deserializeStr;
+    string SerializeHelper(TreeNode *root){
+        if (root == NULL){
+            return "#";
+        }
+        stringstream ss ;
+        ss<<root->val;
+        return ss.str() + " " + SerializeHelper(root->left) + " " + SerializeHelper(root->right);
+    }
+    TreeNode* Deserialize() {
+        if (deserializeStr.size() == 0)
+            return NULL;
+        int index = deserializeStr.find(" ");
+        string node = index == -1 ? deserializeStr : deserializeStr.substr(0, index);
+        deserializeStr = index == -1 ? "" : deserializeStr.substr(index + 1);
+        if (node=="#")
+            return NULL;
+        TreeNode* t = new TreeNode(stoi(node));
+        t->left = Deserialize();
+        t->right = Deserialize();
+        return t;
+    }
+};
+````
+
+### 调试
+
+[序列化二叉树](https://www.nowcoder.com/practice/cf7e25aa97c04cc1a68c8f040e71fb84)
