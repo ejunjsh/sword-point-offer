@@ -3002,7 +3002,7 @@ public:
 
 [按之字形顺序打印二叉树](https://www.nowcoder.com/practice/91b69814117f4e8097390d107d2efbe0)
 
-## 把二叉树打印成多行
+## 60 把二叉树打印成多行
 
 ### 描述
 
@@ -3056,7 +3056,7 @@ public:
 
 [把二叉树打印成多行](https://www.nowcoder.com/practice/445c44d982d04483b04a54f298796288)
 
-## 序列化二叉树
+## 61 序列化二叉树
 
 ### 描述
 
@@ -3122,3 +3122,56 @@ private:
 ### 调试
 
 [序列化二叉树](https://www.nowcoder.com/practice/cf7e25aa97c04cc1a68c8f040e71fb84)
+
+## 62 二叉搜索树的第k个结点
+
+### 描述
+
+给定一棵二叉搜索树，请找出其中的第k小的结点。例如， （5，3，7，2，4，6，8）    中，按结点数值大小顺序第三小结点的值为4。
+
+### 思路
+
+中序遍历（二叉搜索树在这种遍历下会输出排序的结果），只不过这次遍历的时候顺便计数，如果计数达到k就代表当前遍历到的节点就是答案
+
+### 代码
+
+````c++
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    TreeNode* KthNode(TreeNode* pRoot, int k)
+    {
+        inOrder(pRoot, k);
+        return ret;
+    }
+
+private:
+    TreeNode* ret=NULL;
+    int cnt = 0;
+
+
+    void inOrder(TreeNode* root, int k) {
+        if (root == NULL || cnt >= k)
+            return;
+        inOrder(root->left, k);
+        cnt++;
+        if (cnt == k)
+            ret = root;
+        inOrder(root->right, k);
+    }
+
+};
+````
+
+### 调试
+
+[二叉搜索树的第k个结点](https://www.nowcoder.com/practice/ef068f602dde4d28aab2b210e859150a)
