@@ -3175,3 +3175,53 @@ private:
 ### 调试
 
 [二叉搜索树的第k个结点](https://www.nowcoder.com/practice/ef068f602dde4d28aab2b210e859150a)
+
+## 63 数据流中的中位数
+
+### 描述
+
+如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。
+
+### 思路
+
+利用两个堆（优先队列），一个最大堆，一个最小堆，他们分别存储一半的数据，这样最大堆的最大值和最小堆的最小值，就是我们要找的中位数
+
+### 代码
+
+````c++
+class Solution {
+public:
+    void Insert(int num)
+    {
+        if (count % 2 == 0) {
+            left.push(num);
+            int t=left.top();
+            left.pop();
+            right.push(t);
+        } else {
+            right.push(num);
+            int t=right.top();
+            right.pop();
+            left.push(t);
+        }
+        count++;
+    }
+
+    double GetMedian()
+    { 
+        if (count % 2 == 0)
+            return (left.top() + right.top()) / 2.0;
+        else
+            return (double) right.top();
+    }
+
+private:
+    priority_queue<int, vector<int>, less<int>> right;
+    priority_queue<int, vector<int>, greater<int>> left;
+    int count;
+};
+````
+
+### 调试
+
+[数据流中的中位数](https://www.nowcoder.com/practice/9be0172896bd43948f8a32fb954e1be1)
