@@ -3326,3 +3326,57 @@ private:
 ### 调试
 
 [矩阵中的路径](https://www.nowcoder.com/practice/c61c6999eecb4b8f88a98f66b273a3cc)
+
+
+## 66 机器人的运动范围
+
+### 描述
+
+地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？
+
+### 思路
+
+深度优先搜索（dfs）
+
+### 代码
+
+````c++
+class Solution {
+public:
+    int movingCount(int threshold, int rows, int cols)
+    {
+        vector<bool>marked(rows*cols,false);
+        return moving(threshold, marked, 0, 0, rows, cols);
+    }
+
+private:
+    int moving(int threshold, vector<bool>&marked, int i, int j, int rows, int cols)
+    {
+        int count=0;
+        if(i>=0 && i<rows && j>=0 && j<cols && !marked[i*cols+j]&& getsum(i)+getsum(j)<=threshold)
+        {
+            marked[i*cols+j]=true;
+            count=1+moving(threshold, marked, i+1, j, rows, cols)+
+                moving(threshold, marked, i-1, j, rows, cols)+
+                moving(threshold, marked, i, j+1, rows, cols)+
+                moving(threshold, marked, i, j-1, rows, cols);
+        }
+        return count;
+    }
+    
+    int getsum(int x)
+    {
+        int sum=0;
+        while(x>0)
+        {
+            sum=sum+x%10;
+            x=x/10;
+        }
+        return sum;
+    }
+};
+````
+
+### 调试
+
+[机器人的运动范围](https://www.nowcoder.com/practice/6e5207314b5241fb83f2329e89fdecc8)
